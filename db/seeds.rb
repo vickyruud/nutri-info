@@ -7,3 +7,14 @@
 #   Character.create(name: "Luke", movie: movies.first)
 require 'csv'
 
+CSV.foreach('seed_data/recipe.csv', headers: true) do |row|
+  Recipe.create(row.to_h)
+end
+
+CSV.foreach('seed_data/comments.csv', headers: true) do |row|
+  Comment.create(row.to_h)
+end
+
+CSV.foreach('seed_data/ratings.csv', headers: true) do |row|
+  Rating.create(row.to_h)
+end
