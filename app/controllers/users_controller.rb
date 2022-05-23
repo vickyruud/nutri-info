@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def create
+
     user = User.new(user_params)
     if user.password == user.password_confirmation
       if user.save
@@ -9,8 +10,9 @@ class UsersController < ApplicationController
         render json: { valid: "false", errorMessages: user.errors.messages }
       end
     else
-      render json: { valid: "false", errorMessages: "Passwords do not match" }
+      render json: { valid: "false", errorMessages: 'Passwords do not match' }
     end
+    
   end
 
   private
