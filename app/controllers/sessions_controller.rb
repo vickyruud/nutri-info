@@ -1,18 +1,25 @@
 class SessionsController < ApplicationController
-  def create
+def login
     user = User.find_by(username: params[:username])
-    if user&.authenticate(params[:password])
-      token = issue_token(user)
-      render json: { valid: "true", user: {id: user.id, username: user.username, email:user.email}, token: token}
+    if user && user.authenticate(params[:password])
+        payload = {user_id: user.id}
+        token = encode_token(payload)
+        render json: {user: user, jwt: token, success: "Welcome back, #{user.username}"}
     else
-      render json: { valid: "false", errorMessages: {login: "username or password is wrong"} }
+        render json: {failure: "Log in failed! Username or password invalid!"}
     end
   end
-  def show
-    if logged_in?
-      render json: { valid: "true", user: {id: current_user.id, username: current_user.username} }
+
+  def auto_login
+    if session_user
+      puts 'autologin success'
+      render json: session_user
     else
-     render json: { valid: "false", errorMessages: {session: "Please login to continue"}}
+      render json: {errors: "No User Logged In"}
     end
-  end 
+  end
+
+  def user_is_authed
+    render json: {message: "You are authorized"}
+  end
 end
