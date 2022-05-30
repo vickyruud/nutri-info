@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#login'
   get '/authorize', to: 'sessions#auto_login'
 
-  resources :users, only: [:create]
+  resources :users, only: [:create, :index]
 
 
   # Defines the root path route ("/")
