@@ -19,10 +19,18 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
 
     if @comment.save
-      render :json => @comment
+      @comments = Comment.all
+      render :json => @comments
     else
       render json: {failure: "Cannot Save Comment!"}
     end
+  end
+
+  def destroy
+    @comment = Comment.find params[:id]
+    @comment.destroy
+    @comments = Comment.all
+    render :json => @comments
   end
 
   private
